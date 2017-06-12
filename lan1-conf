@@ -1,0 +1,38 @@
+################################################
+# LAN1                                         #
+################################################
+
+# Windows Server 2012 R2
+add windowsserver2012
+set windowsserver2012 personality "Microsoft Windows Server 2012 R2"
+# MS-SQL
+add windowsserver2012 tcp port 1433 "python scripts/win32/mssql.py"
+
+# Ubuntu 12.02
+add ubuntu
+set ubuntu personality "Linux 3.0 or 3.5"
+# Web (to include)
+add ubuntu tcp port 80 "python webserver/server.py"
+# SSH
+add ubuntu tcp port 22 "./scripts/linux/ssh.sh"
+# Samba
+add ubuntu tcp port 445 "python scripts/misc/smb-autofail.py"
+
+# Windows XP
+add windowsxp
+set windowsxp personality "Microsoft Windows 2000 SP0 - SP4 or Windows XP SP0 - SP1"
+
+# Windows Server 2003
+add windowsserver2003
+set windowsserver2003 personality "Windows 2000 or Windows Server 2003 SP1"
+# DNS
+add windowsserver2003 tcp port 53 "python dpkt/dpkt/dns.py"
+# DHCP
+add windowsserver2003 udp port 67 "python dpkt/dpkt/dhcp.py"
+# Radius
+add windowsserver2003 udp port 1812 open
+
+bind 192.168.1.10 windowsserver2012 
+bind 192.168.1.11 ubuntu
+bind 192.168.1.12 windowsxp
+bind 192.168.1.13 windowsserver2003

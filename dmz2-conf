@@ -1,0 +1,33 @@
+################################################
+# DMZ2                                         #
+################################################
+
+# Debian 8.7
+add debian87
+set debian87 personality "Linux 3.2"
+# Mail server
+set debian87 tcp port 25 "perl scripts/linux/smtp.pl"
+set debian87 tcp port 465 "perl scripts/linux/smtp.pl"
+
+# Windows Server 2008 R2
+add windowsserver2008
+set windowsserver2008 personality "Microsoft Windows Server 2008 R2"
+# Web
+add windowsserver2008 tcp port 80 "sh scripts/win32/web.sh"
+
+# Cisco
+add cisco
+set cisco personality "3Com Baseline Switch 2924-SFP or Cisco ESW-520 switch or Allied Telesis AT-8000 series switch"
+# SSH
+add cisco tcp port 22 "sh scripts/linux/ssh.sh"
+
+# Centos
+add centos
+set centos personality "Linux 2.6.32"
+# DNS
+add windowsserver2003 tcp port 53 "python dpkt/dpkt/dns.py"
+
+bind 192.168.1.22 debian87
+bind 192.168.1.23 windowsserver2008
+bind 192.168.1.24 cisco
+bind 192.168.1.25 centos

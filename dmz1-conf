@@ -1,0 +1,36 @@
+################################################
+# DMZ1                                         #
+################################################
+
+# Windows Server 2012 R2
+add windows
+set windows personality "Microsoft Windows Server 2012 or Windows Server 2012 R2"
+# Exchange (change)
+add windowsserver2012 tcp port 1433 "python scripts/win32/mssql.py"
+
+# Centos 6.5
+add centos
+set centos personality "Linux 2.6.32"
+# Web
+add centos tcp port 80 "python webserver/server.py"
+# MySQL
+add centos tcp port 3306 "python scripts/linux/mysql.py"
+
+# Cisco
+add cisco
+set cisco personality "3Com Baseline Switch 2924-SFP or Cisco ESW-520 switch or Allied Telesis AT-8000 series switch"
+# SSH
+add cisco tcp port 22 "sh scripts/linux/ssh.sh"
+# Telnet
+add cisco tcp port 23 "sh scripts/linux/telnetd.sh"
+
+# Debian 8.4
+add debian
+set debian personality "Linux 3.2"
+# DNS
+add debian tcp port 53 "python dpkt/dpkt/dns.py"
+
+bind 192.168.1.18 windows
+bind 192.168.1.19 centos
+bind 192.168.1.20 cisco
+bind 192.168.1.21 debian

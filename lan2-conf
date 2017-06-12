@@ -1,0 +1,38 @@
+################################################
+# LAN2                                         #
+################################################
+
+# Debian 
+add debian84
+set debian84 personality "Linux 3.2"
+# MySQL
+add debian tcp port 3306 "python scripts/linux/mysql.py"
+
+# Windows Server 2008 R2
+add windowsserver2008
+set windowsserver2008 personality "Microsoft Windows Server 2008 R2"
+# Web
+add windowsserver2008 tcp port 80 "sh scripts/win32/web.sh"
+# Samba
+add windowsserver2008 tcp port 445 "python scripts/misc/smb-autofail.py"
+# Active Directory
+add windowsserver2008 tcp port 389 "sh scripts/win23/win2k/ldap.sh"
+
+# Windows XP
+add windowsxp 
+set windowsxp personality "Microsoft Windows 2000 SP0 - SP4 or Windows XP SP0 - SP1"
+
+# Debian 8.7
+add debian87
+set debian87 personality "Linux 3.2"
+# DNS
+add windowsserver2003 tcp port 53 "python dpkt/dpkt/dns.py"
+# DHCP
+add windowsserver2003 udp port 67 "python dpkt/dpkt/dhcp.py"
+# Radius
+add windowsserver2003 udp port 1812 open
+
+bind 192.168.1.14 debian84
+bind 192.168.1.15 windowsserver2008
+bind 192.168.1.16 windowsxp
+bind 192.168.1.17 debian87
